@@ -1,0 +1,2 @@
+Rick And Morty GitHub link: https://github.com/Dheimid/RickAndMortyPage
+Rick And Morty GitHub IO Link: https://dheimid.github.io/RickAndMortyPage/
