@@ -6,17 +6,21 @@ let selectedCategory = "All"; //<- categoría seleccionada (todos los personajes
 
 //-> Función para obtener a los personajes. Esta tiene 2 parámetros, desde que página a que página.
 async function GetCharacters(fromPage, toPage) {
+
+    //-> Guardamos en una variable el numero de paginas que queremos recorrer.
     const pageNumbers = [];
     for (let i = fromPage; i <= toPage; i++) {
         pageNumbers.push(i);
     }
 
+    //-> Pasamos por el numero de páginas que recorrimos y guardamos las "promesas".
     const fetches = pageNumbers.map(page =>
         fetch(`https://rickandmortyapi.com/api/character/?page=${page}`).then(res => res.json())
     );
 
+    //-> Esperamos a que se carguen las peticiones o promesas de la api.
     const results = await Promise.all(fetches);
-    const allCharacters = results.flatMap(r => r.results);
+    const allCharacters = results.flatMap(r => r.results); //<- "aplana" el elemento y lo guarda en una lista, es decir, que si es "results[1, 2] queda como "[1, 2]"".
     return allCharacters;
 }
 
