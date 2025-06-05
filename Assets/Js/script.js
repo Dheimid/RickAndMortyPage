@@ -28,23 +28,23 @@ async function GetCharacters(fromPage, toPage) {
 const select = document.querySelector('.form-select');
 
 //-> Escuchar a la selección del filtro.
-function FilterListener(){
-select.addEventListener('change', () => {
-    let selectedOption = select.value;
+function FilterListener() {
+    select.addEventListener('change', () => {
+        let selectedOption = select.value;
 
-    switch (selectedOption) {
-        case "1": selectedCategory = "Human"; break;
-        case "2": selectedCategory = "Humanoid"; break;
-        case "3": selectedCategory = "Alien"; break;
-        case "4": selectedCategory = "Mythological Creature"; break;
-        default: selectedCategory = "All";
-    }
+        switch (selectedOption) {
+            case "1": selectedCategory = "Human"; break;
+            case "2": selectedCategory = "Humanoid"; break;
+            case "3": selectedCategory = "Alien"; break;
+            case "4": selectedCategory = "Mythological Creature"; break;
+            default: selectedCategory = "All";
+        }
 
-    characterSection.innerHTML = ""; //<- Limpiar personajes anteriores
-    currentPage = 1;
-    RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
-    currentPage += pagesPerLoad;
-});
+        characterSection.innerHTML = ""; //<- Limpiar personajes anteriores
+        currentPage = 1;
+        RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
+        currentPage += pagesPerLoad;
+    });
 }
 
 //-> Llamamos a la función.
@@ -56,13 +56,18 @@ function GetCategory(characters, nameCategory) {
     return characters.filter(character => character.species === nameCategory); //-> mostrar los seleccionados.
 }
 
-//-> Escuchamos el scroll para cargar los personajes al scrollear a cierta distancia del final.
-window.addEventListener("scroll", () => {
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300 && !isLoading && currentPage <= totalPages) {
-        RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
-        currentPage += pagesPerLoad;
-    }
-});
+//-> Funcion para escuchar el scroll para cargar los personajes al scrollear a cierta distancia del final.
+function ScrollListener() {
+    window.addEventListener("scroll", () => {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300 && !isLoading && currentPage <= totalPages) {
+            RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
+            currentPage += pagesPerLoad;
+        }
+    });
+}
+
+//-> Llamamos a la función de escucha de scroll.
+ScrollListener();
 
 //-> Verificamos si la cantidad de personajes no alcanza a generar un scroll, para generar más personajes hasta crear el scroll.
 function checkScrollAndLoadMore() {
