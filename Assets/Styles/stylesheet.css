@@ -1,0 +1,62 @@
+.Title {
+    padding-top: 10px;
+
+    height: 150px;
+    width: 300px;
+}
+
+body {
+    background-color: rgb(22, 22, 22);
+    text-align: center;
+    padding: 0px 40px;
+}
+
+.characters {
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+@keyframes popup {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.card.popup-anim {
+    opacity: 0;
+    color: white;
+    background-color: rgb(37, 37, 37);
+    transform: scale(0.8);
+    animation-name: popup;
+    animation-duration: 0.4s;
+    animation-timing-function: ease-out;
+    animation-fill-mode: forwards;
+}
+
+.card-status {
+    font-weight: bold;
+}
+
+.options {
+    background-color: red;
+}
+
+.form-select {
+    color: white;
+    background-color: rgb(37, 37, 37);
+}
+
+.form-select form-select-sm {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
