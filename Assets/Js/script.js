@@ -1,9 +1,10 @@
-let currentPage = 1;
-const pagesPerLoad = 1;
-let isLoading = false;
-let totalPages = 42;
-let selectedCategory = "All";
+let currentPage = 1; //<- Maneja la página actual (1 inicialmente)
+const pagesPerLoad = 1; //<- El número de páginas que cargarán cuando necesitemos ver más personajes.
+let isLoading = false; //<- Avisa cuando estamos cargando los siguientes personajes.
+let totalPages = 42; //<- número total o máximo de páginas a cargar.
+let selectedCategory = "All"; //<- categoría seleccionada (todos los personajes por defecto)
 
+//-> Función para obtener a los personajes. Esta tiene 2 parámetros, desde que página a que página.
 async function GetCharacters(fromPage, toPage) {
     const pageNumbers = [];
     for (let i = fromPage; i <= toPage; i++) {
@@ -19,8 +20,11 @@ async function GetCharacters(fromPage, toPage) {
     return allCharacters;
 }
 
+//-> Obtenemos el selector de personajes para filtrar.
 const select = document.querySelector('.form-select');
 
+//-> Escuchar a la selección del filtro.
+function FilterListener(){
 select.addEventListener('change', () => {
     let selectedOption = select.value;
 
@@ -32,17 +36,23 @@ select.addEventListener('change', () => {
         default: selectedCategory = "All";
     }
 
-    characterSection.innerHTML = ""; // Limpiar personajes anteriores
+    characterSection.innerHTML = ""; //<- Limpiar personajes anteriores
     currentPage = 1;
     RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
     currentPage += pagesPerLoad;
 });
-
-function GetCategory(characters, nameCategory) {
-    if (nameCategory === "All") return characters; // Mostrar todos si selecciona "All"
-    return characters.filter(character => character.species === nameCategory);
 }
 
+//-> Llamamos a la función.
+FilterListener();
+
+//-> Función para obtener a la categoría de los personajes, con dos parámetros: los personajes cargados y el nombre de la categoría.
+function GetCategory(characters, nameCategory) {
+    if (nameCategory === "All") return characters; //-> Mostrar todos si selecciona "All"
+    return characters.filter(character => character.species === nameCategory); //-> mostrar los seleccionados.
+}
+
+//-> Escuchamos el scroll para cargar los personajes al scrollear a cierta distancia del final.
 window.addEventListener("scroll", () => {
     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 300 && !isLoading && currentPage <= totalPages) {
         RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
@@ -50,6 +60,7 @@ window.addEventListener("scroll", () => {
     }
 });
 
+//-> Verificamos si la cantidad de personajes no alcanza a generar un scroll, para generar más personajes hasta crear el scroll.
 function checkScrollAndLoadMore() {
     const body = document.body;
     const html = document.documentElement;
