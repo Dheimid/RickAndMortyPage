@@ -73,8 +73,10 @@ function checkScrollAndLoadMore() {
     }
 }
 
+//-> Obtenemos el character.
 const characterSection = document.querySelector(".characters");
 
+//-> Función que renderiza a los personajes en las cards del bootstrap.
 async function RenderCharacter(category, fromPage, toPage) {
     isLoading = true;
 
@@ -101,4 +103,5 @@ async function RenderCharacter(category, fromPage, toPage) {
     checkScrollAndLoadMore(); s
 }
 
+//-> Llama a la función.
 RenderCharacter(selectedCategory, currentPage, currentPage + pagesPerLoad - 1);
